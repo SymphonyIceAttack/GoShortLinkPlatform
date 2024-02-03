@@ -5,9 +5,10 @@
         "dest": "/api/router.go"
       }
     ],
-    "build": {
-      "env": {
-        "GIN_MODE":"release"
+    "functions": {
+      "api/router.go": {
+        "memory": 128
       }
     }
-  }
+
+}

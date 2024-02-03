@@ -38,7 +38,7 @@ func init() {
 		c.String(http.StatusBadRequest, sb.String())
 	})
 	router.POST("/generateLink", handler.Cors, wrapDB(linkurl.GenerateLink, db))
-	router.GET("/:shortLinkUrl", handler.Cors, wrapDB(linkurl.ParseShortLink, db))
+	router.GET("/:shortLinkUrl", wrapDB(linkurl.ParseShortLink, db))
 
 }
 func wrapDB(fn linkurl.BeWrapDbFnType, db *gorm.DB) func(ctx *gin.Context) {

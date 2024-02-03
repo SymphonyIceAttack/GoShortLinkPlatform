@@ -93,13 +93,13 @@ func isValidURL(inputURL string) bool {
 	return true
 }
 
-func isURLAccessible(url string) bool {
-	response, err := http.Head(url)
-	if err != nil {
-		return false
-	}
+// func isURLAccessible(url string) bool {
+// 	response, err := http.Head(url)
+// 	if err != nil {
+// 		return false
+// 	}
 
-	defer response.Body.Close()
+// 	defer response.Body.Close()
 
-	return response.StatusCode == http.StatusOK
-}
+// 	return response.StatusCode == http.StatusOK
+// }
