@@ -1,7 +1,8 @@
 {
-    "routes": [
+  "trailingSlash": false,
+    "redirects": [
       {
-        "src": "/.*",
+        "source": "/.*",
         "dest": "/api/router.go"
       }
     ],
