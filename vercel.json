@@ -2,8 +2,8 @@
   "trailingSlash": false,
     "redirects": [
       {
-        "source": "/.*",
-        "dest": "/api/router.go"
+        "source": "/(.*)",
+        "destination": "/api/router.go"
       }
     ],
     "functions": {
