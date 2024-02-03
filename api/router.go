@@ -3,6 +3,7 @@ package api
 import (
 	databaseUtil "GoShortLinkPlatform/DataBase"
 	linkurl "GoShortLinkPlatform/LinkUrl"
+	"GoShortLinkPlatform/handler"
 	"fmt"
 	"log"
 	"net/http"
@@ -20,7 +21,7 @@ var router *gin.Engine
 func init() {
 
 	db, err := databaseUtil.LoadDataBase()
-	// db.AutoMigrate(&databaseUtil.LinkObject{})
+	db.AutoMigrate(&databaseUtil.LinkObject{})
 
 	if err != nil {
 		log.Fatal(nil)
@@ -36,8 +37,8 @@ func init() {
 		}
 		c.String(http.StatusBadRequest, sb.String())
 	})
-	router.POST("/generateLink", wrapDB(linkurl.GenerateLink, db))
-	router.GET("/:shortLinkUrl", wrapDB(linkurl.ParseShortLink, db))
+	router.POST("/generateLink", handler.Cors, wrapDB(linkurl.GenerateLink, db))
+	router.GET("/:shortLinkUrl", handler.Cors, wrapDB(linkurl.ParseShortLink, db))
 
 }
 func wrapDB(fn linkurl.BeWrapDbFnType, db *gorm.DB) func(ctx *gin.Context) {
