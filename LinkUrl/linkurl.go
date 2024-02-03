@@ -37,6 +37,16 @@ var GenerateLink = BeWrapDbFnType(func(c *gin.Context, db *gorm.DB) {
 	}
 
 	shortLinkUrl := shortLink(newLinkUrlbody.LinkUrl)
+
+	QuerylinkurlBody := databaseUtil.LinkObject{}
+
+	resultFind := db.Where(&databaseUtil.LinkObject{ShortUrl: shortLinkUrl}).First(&QuerylinkurlBody)
+
+	if resultFind.Error == nil {
+		c.JSON(http.StatusAccepted, gin.H{"url": shortLinkUrl})
+		return
+	}
+
 	LinkObject := databaseUtil.LinkObject{ShortUrl: shortLinkUrl, WholeUrl: newLinkUrlbody.LinkUrl}
 	result := db.Create(&LinkObject)
 	if result.Error != nil {
