@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -32,6 +33,21 @@ func main() {
 		log.Fatal(nil)
 	}
 
+	// 设置定时器清除任务
+	ticker := time.Tick(3600 * time.Second) // 每3600秒执行一次任务
+
+	go func() {
+		for range ticker {
+			// 这里执行定时任务的具体逻辑
+			result := db.Where("created_at < ?", time.Now().Add(-24*time.Hour)).Delete(&databaseUtil.LinkObject{})
+			if result.Error != nil {
+				fmt.Println("Error deleting records:", result.Error)
+				return
+			}
+			// 输出受影响的行数
+			fmt.Println("Rows affected:", result.RowsAffected)
+		}
+	}()
 	router := gin.Default()
 	router.Use(cors.Default())
 	// Handling routing errors
