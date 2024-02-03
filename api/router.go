@@ -12,10 +12,10 @@ import (
 
 var router *gin.Engine
 
+//	func init() {
+//		Init()
+//	}
 func init() {
-	Init()
-}
-func Init() {
 
 	db, err := databaseUtil.LoadDataBase()
 	// db.AutoMigrate(&databaseUtil.LinkObject{})
