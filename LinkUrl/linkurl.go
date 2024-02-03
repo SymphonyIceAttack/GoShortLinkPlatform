@@ -31,10 +31,10 @@ var GenerateLink = BeWrapDbFnType(func(c *gin.Context, db *gorm.DB) {
 		c.JSON(http.StatusNotAcceptable, gin.H{"error": "Url UnValidURL"})
 		return
 	}
-	// if !isURLAccessible(newLinkUrlbody.LinkUrl) {
-	// 	c.JSON(http.StatusNotAcceptable, gin.H{"error": "Url UnValidURL"})
-	// 	return
-	// }
+	if !isURLAccessible(newLinkUrlbody.LinkUrl) {
+		c.JSON(http.StatusNotAcceptable, gin.H{"error": "Url UnValidURL"})
+		return
+	}
 
 	shortLinkUrl := shortLink(newLinkUrlbody.LinkUrl)
 	LinkObject := databaseUtil.LinkObject{ShortUrl: shortLinkUrl, WholeUrl: newLinkUrlbody.LinkUrl}
@@ -93,13 +93,13 @@ func isValidURL(inputURL string) bool {
 	return true
 }
 
-// func isURLAccessible(url string) bool {
-// 	response, err := http.Head(url)
-// 	if err != nil {
-// 		return false
-// 	}
+func isURLAccessible(url string) bool {
+	response, err := http.Head(url)
+	if err != nil {
+		return false
+	}
 
-// 	defer response.Body.Close()
+	defer response.Body.Close()
 
-// 	return response.StatusCode == http.StatusOK
-// }
+	return response.StatusCode == http.StatusOK
+}
