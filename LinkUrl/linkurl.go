@@ -4,6 +4,7 @@ import (
 	databaseUtil "GoShortLinkPlatform/DataBase"
 	"crypto/md5"
 	"encoding/base64"
+	"strings"
 
 	"net/http"
 	"net/url"
@@ -72,7 +73,9 @@ func shortLink(LinkUrl string) string {
 
 	// 使用Base64编码
 	hashString := base64.StdEncoding.EncodeToString(newHash[:])
-
+	// 替换 '/' 和 '\'
+	hashString = strings.ReplaceAll(hashString, "/", "X")  // 使用 'X' 替换 '/'
+	hashString = strings.ReplaceAll(hashString, "\\", "Y") // 使用 'Y' 替换 '\'
 	return hashString
 
 }
