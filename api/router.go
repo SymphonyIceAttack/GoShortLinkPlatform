@@ -7,17 +7,18 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 )
 
 var router *gin.Engine
 
 func init() {
-	godotenv.Load(".env.local")
+	Init()
+}
+func Init() {
 
 	db, err := databaseUtil.LoadDataBase()
-	db.AutoMigrate(&databaseUtil.LinkObject{})
+	// db.AutoMigrate(&databaseUtil.LinkObject{})
 
 	if err != nil {
 		log.Fatal(nil)

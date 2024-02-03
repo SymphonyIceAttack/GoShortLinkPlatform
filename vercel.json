@@ -1,0 +1,13 @@
+{
+    "routes": [
+      {
+        "src": "/.*",
+        "dest": "/api/router.go"
+      }
+    ],
+    "build": {
+      "env": {
+        "GIN_MODE":"release"
+      }
+    }
+  }
