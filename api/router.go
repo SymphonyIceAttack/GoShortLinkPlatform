@@ -3,8 +3,10 @@ package api
 import (
 	databaseUtil "GoShortLinkPlatform/DataBase"
 	linkurl "GoShortLinkPlatform/LinkUrl"
+	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -25,11 +27,18 @@ func init() {
 	}
 
 	router := gin.Default()
-
+	// Handling routing errors
+	router.NoRoute(func(c *gin.Context) {
+		sb := &strings.Builder{}
+		sb.WriteString("routing err: no route, try this:\n")
+		for _, v := range router.Routes() {
+			sb.WriteString(fmt.Sprintf("%s %s\n", v.Method, v.Path))
+		}
+		c.String(http.StatusBadRequest, sb.String())
+	})
 	router.POST("/generateLink", wrapDB(linkurl.GenerateLink, db))
 	router.GET("/:shortLinkUrl", wrapDB(linkurl.ParseShortLink, db))
 
-	router.Run("localhost:8080")
 }
 func wrapDB(fn linkurl.BeWrapDbFnType, db *gorm.DB) func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
