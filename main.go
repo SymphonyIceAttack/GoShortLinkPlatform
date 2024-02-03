@@ -44,7 +44,7 @@ func main() {
 		c.String(http.StatusBadRequest, sb.String())
 	})
 	router.POST("/generateLink", wrapDB(linkurl.GenerateLink, db))
-	router.GET("/s", wrapDB(linkurl.ParseShortLink, db))
+	router.GET("/:s", wrapDB(linkurl.ParseShortLink, db))
 	router.Run(fmt.Sprintf(":%s", port))
 }
 
