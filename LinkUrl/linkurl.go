@@ -68,7 +68,7 @@ func shortLink(LinkUrl string) string {
 }
 
 var ParseShortLink = BeWrapDbFnType(func(ctx *gin.Context, db *gorm.DB) {
-	shortLinkUrl := ctx.Param("shortLinkUrl")
+	shortLinkUrl := ctx.Query("s")
 	QuerylinkurlBody := databaseUtil.LinkObject{}
 
 	result := db.Where(&databaseUtil.LinkObject{ShortUrl: shortLinkUrl}).First(&QuerylinkurlBody)
